@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Calculator"
+version = "1.0.0"
+id = "artifacts/calculator"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25540
+
+[services.development]
+run = "pnpm --filter @workspace/calculator run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/calculator", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/calculator/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25540"
+BASE_PATH = "/"
